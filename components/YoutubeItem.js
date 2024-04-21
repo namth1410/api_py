@@ -6,8 +6,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
-import { screenWidth } from "../App";
+
+const screenWidth = Dimensions.get("window").width;
 
 function YoutubeItem({ item }) {
   const [visible, setVisible] = useState(false);

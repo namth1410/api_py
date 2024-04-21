@@ -1,15 +1,16 @@
 import { SearchBar } from "@rneui/themed";
 import axios from "axios";
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
   Dimensions,
   FlatList,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import YoutubeItem from "./components/YoutubeItem";
 
 export const screenHeight = Dimensions.get("window").height;
@@ -24,11 +25,12 @@ export default function App() {
   };
 
   const onSearch = async () => {
+    console.log("asd");
     if (search === "") return;
     const options = {
       method: "GET",
       url: "https://yt-api.p.rapidapi.com/search",
-      params: { query: search },
+      params: { query: search, type: "video" },
       headers: {
         "X-RapidAPI-Key": "abd72d5a47msh3f27cd7a9913130p1f4d7ajsn5362cf819125",
         "X-RapidAPI-Host": "yt-api.p.rapidapi.com",
@@ -45,56 +47,64 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          width: screenWidth,
-          flexDirection: "row",
-        }}
-      >
-        <SearchBar
-          placeholder="Tìm kiếm..."
-          onChangeText={updateSearch}
-          value={search}
-          containerStyle={{
-            border: "none",
-            flex: 1,
-          }}
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="transparent"
+          translucent={true}
         />
-        <TouchableOpacity
+
+        <View
           style={{
-            justifyContent: "center",
-            backgroundColor: "#86d2ff",
-            borderRadius: 4,
-            paddingHorizontal: 8,
+            width: screenWidth,
+            flexDirection: "row",
           }}
-          onPress={onSearch}
         >
-          <Text
-            style={{
-              color: "#F1F1D4",
+          <SearchBar
+            placeholder="Tìm kiếm..."
+            onChangeText={updateSearch}
+            value={search}
+            containerStyle={{
+              border: "none",
+              flex: 1,
+              zIndex: 0,
             }}
+          />
+          <TouchableOpacity
+            style={{
+              justifyContent: "center",
+              backgroundColor: "#86d2ff",
+              borderRadius: 4,
+              paddingHorizontal: 8,
+            }}
+            onPress={onSearch}
           >
-            Search
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {res && (
-        <FlatList
-          data={res}
-          renderItem={({ item }) => <YoutubeItem item={item} />}
-          keyExtractor={(item) => item.videoId}
-        />
-      )}
-      <StatusBar style="auto" />
-    </View>
+            <Text
+              style={{
+                color: "#F1F1D4",
+              }}
+            >
+              Search
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {res && (
+          <FlatList
+            data={res}
+            renderItem={({ item }) => <YoutubeItem item={item} />}
+            keyExtractor={(item) => item.videoId}
+          />
+        )}
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: screenHeight,
     backgroundColor: "#303337",
     alignItems: "center",
     width: screenWidth,
