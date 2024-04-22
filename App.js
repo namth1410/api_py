@@ -1,6 +1,6 @@
 import { SearchBar } from "@rneui/themed";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -19,13 +19,16 @@ export const screenWidth = Dimensions.get("window").width;
 export default function App() {
   const [search, setSearch] = useState("");
   const [res, setRes] = useState(null);
+  const searchInputRef = useRef(null);
 
   const updateSearch = (search) => {
     setSearch(search);
   };
 
   const onSearch = async () => {
-    console.log("asd");
+    if (searchInputRef.current) {
+      searchInputRef.current.blur();
+    }
     if (search === "") return;
     const options = {
       method: "GET",
@@ -70,6 +73,7 @@ export default function App() {
               flex: 1,
               zIndex: 0,
             }}
+            ref={searchInputRef}
           />
           <TouchableOpacity
             style={{
