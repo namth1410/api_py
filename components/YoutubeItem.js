@@ -22,10 +22,11 @@ function YoutubeItem({ item }) {
   const onPlayVideo = async () => {
     try {
       const response = await axios.post("http://192.168.1.20:5000/control_pc", {
-        as: "asd",
+        videoId: item.videoId,
       });
       console.log(response.data);
       setRes(response.data.data);
+      setVisible(false);
     } catch (error) {
       console.error(error.toJSON());
     }

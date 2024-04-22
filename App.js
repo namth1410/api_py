@@ -43,7 +43,7 @@ export default function App() {
     try {
       const response = await axios.request(options);
       console.log(response.data);
-      setRes(response.data.data);
+      setRes(response.data.data.filter((el) => el.type === "video"));
     } catch (error) {
       console.error(error);
     }
