@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import YoutubeItem from "./components/YoutubeItem";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export const screenHeight = Dimensions.get("window").height;
 export const screenWidth = Dimensions.get("window").width;
@@ -46,6 +47,16 @@ export default function App() {
       setRes(response.data.data.filter((el) => el.type === "video"));
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const onAction = async () => {
+    try {
+      await axios.post("http://192.168.1.20:5000/play-pause", {
+        as: "asd",
+      });
+    } catch (error) {
+      console.error(error.toJSON());
     }
   };
 
@@ -93,7 +104,48 @@ export default function App() {
             </Text>
           </TouchableOpacity>
         </View>
-
+        <View style={{ flexDirection: "row", width: screenWidth }}>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignItems: "center",
+              borderRightWidth: 1,
+              borderRightColor: "gray",
+            }}
+          >
+            <Ionicons name="md-checkmark-circle" size={32} color="green" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignItems: "center",
+              borderRightWidth: 1,
+              borderRightColor: "gray",
+            }}
+          >
+            <Ionicons name="md-checkmark-circle" size={32} color="green" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignItems: "center",
+              borderRightWidth: 1,
+              borderRightColor: "gray",
+            }}
+          >
+            <Ionicons name="md-checkmark-circle" size={32} color="green" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignItems: "center",
+              borderRightWidth: 1,
+              borderRightColor: "gray",
+            }}
+          >
+            <Ionicons name="md-checkmark-circle" size={32} color="green" />
+          </TouchableOpacity>
+        </View>
         {res && (
           <FlatList
             data={res}
