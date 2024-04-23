@@ -50,11 +50,14 @@ export default function App() {
     }
   };
 
-  const onAction = async () => {
+  const onAction = async (action) => {
     try {
-      await axios.post("http://192.168.1.20:5000/play-pause", {
+      const response = await axios.post(`http://192.168.1.20:5000/${action}`, {
         as: "asd",
       });
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setImageUrl(url);
     } catch (error) {
       console.error(error.toJSON());
     }
@@ -104,7 +107,15 @@ export default function App() {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flexDirection: "row", width: screenWidth }}>
+
+        <View
+          style={{
+            flexDirection: "row",
+            width: screenWidth,
+            borderWidth: 1,
+            borderBottomColor: "gray",
+          }}
+        >
           <TouchableOpacity
             style={{
               flex: 1,
@@ -112,8 +123,11 @@ export default function App() {
               borderRightWidth: 1,
               borderRightColor: "gray",
             }}
+            onPress={() => {
+              onAction("volumn_down");
+            }}
           >
-            <Ionicons name="md-checkmark-circle" size={32} color="green" />
+            <Ionicons name="volume-low" size={32} color="pink" />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -122,8 +136,11 @@ export default function App() {
               borderRightWidth: 1,
               borderRightColor: "gray",
             }}
+            onPress={() => {
+              onAction("volumn_up");
+            }}
           >
-            <Ionicons name="md-checkmark-circle" size={32} color="green" />
+            <Ionicons name="volume-high" size={32} color="pink" />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -132,8 +149,11 @@ export default function App() {
               borderRightWidth: 1,
               borderRightColor: "gray",
             }}
+            onPress={() => {
+              onAction("play_or_pause");
+            }}
           >
-            <Ionicons name="md-checkmark-circle" size={32} color="green" />
+            <Ionicons name="play" size={32} color="pink" />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -142,8 +162,11 @@ export default function App() {
               borderRightWidth: 1,
               borderRightColor: "gray",
             }}
+            onPress={() => {
+              onAction("next_track");
+            }}
           >
-            <Ionicons name="md-checkmark-circle" size={32} color="green" />
+            <Ionicons name="arrow-forward" size={32} color="pink" />
           </TouchableOpacity>
         </View>
         {res && (
