@@ -20,6 +20,7 @@ export const screenWidth = Dimensions.get("window").width;
 export default function App() {
   const [search, setSearch] = useState("");
   const [res, setRes] = useState(null);
+  const [hideTools, setHideTools] = useState(false);
   const searchInputRef = useRef(null);
 
   const updateSearch = (search) => {
@@ -78,6 +79,25 @@ export default function App() {
             flexDirection: "row",
           }}
         >
+          <TouchableOpacity
+            style={{
+              justifyContent: "center",
+              backgroundColor: "#86d2ff",
+              borderRadius: 4,
+              paddingHorizontal: 8,
+            }}
+            onPress={() => {
+              setHideTools(!hideTools);
+            }}
+          >
+            <Text
+              style={{
+                color: "#F1F1D4",
+              }}
+            >
+              Tools
+            </Text>
+          </TouchableOpacity>
           <SearchBar
             placeholder="Tìm kiếm..."
             onChangeText={updateSearch}
@@ -114,6 +134,7 @@ export default function App() {
             width: screenWidth,
             borderWidth: 1,
             borderBottomColor: "gray",
+            display: hideTools ? "none" : "flex",
           }}
         >
           <TouchableOpacity
@@ -141,6 +162,19 @@ export default function App() {
             }}
           >
             <Ionicons name="volume-high" size={32} color="pink" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignItems: "center",
+              borderRightWidth: 1,
+              borderRightColor: "gray",
+            }}
+            onPress={() => {
+              onAction("mic");
+            }}
+          >
+            <Ionicons name="mic-outline" size={32} color="pink" />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
